@@ -1,5 +1,5 @@
+import deepStrictEqual from "deep-equal";
 import moment from "moment";
-import shallowequal from "shallowequal";
 import Block from "src/block";
 import Transaction from "src/transaction";
 
@@ -29,7 +29,11 @@ class Blockchain {
   }
 
   minePendingTransactions(miningRewardAddress: string) {
-    let block = new Block(Date.now(), this.pendingTransactions);
+    const block = new Block(
+      Date.now(),
+      this.pendingTransactions,
+      this.chain[this.chain.length - 1].hash
+    );
     block.mine(this.difficulty);
 
     console.log("Block successfuly mined!");
@@ -69,22 +73,24 @@ class Blockchain {
       const previousBlock = this.chain[i - 1];
 
       if (currentBlock.hash !== currentBlock.calculateHash()) {
-        throw new Error("currentBlock.hash !== currentBlock.calculateHash()");
+        throw new Error(
+          "Current block's hash propery not equal to result of calculateHash"
+        );
       }
 
       if (currentBlock.previousHash !== previousBlock.hash) {
-        console.log("currentBlock.previousHash", currentBlock.previousHash);
-        console.log("previousBlock", previousBlock.hash);
-
-        throw new Error("currentBlock.previousHash !== previousBlock.hash");
+        throw new Error(
+          "Current block's previous hash not equal to previous block's hash"
+        );
       }
 
-      const isGenesisBlockValid = shallowequal(
+      const isGenesisBlockValid = deepStrictEqual(
         firstBlock,
         this.createGenesisBlock()
       );
+
       if (!isGenesisBlockValid) {
-        throw new Error("firstBlock !== this.createGenesisBlock()");
+        throw new Error("First block not equal to genesis block");
       }
 
       return true;

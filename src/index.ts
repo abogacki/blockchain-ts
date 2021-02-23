@@ -4,26 +4,9 @@ import Transaction from "./transaction";
 
 const blockchain = new Blockchain();
 
-const data = [
-  {
-    transactions: [
-      new Transaction("user1", "user2", 500),
-      new Transaction("user2", "user3", 250),
-    ],
-  },
-  {
-    transactions: [
-      new Transaction("user2", "user4", 500),
-      new Transaction("user1", "user3", 250),
-    ],
-  },
-];
-
-data.forEach(({ transactions }) => {
-  transactions.forEach((transaction) =>
-    blockchain.createTransaction(transaction)
-  );
-});
+blockchain.createTransaction(new Transaction("user2", "user3", 100));
+blockchain.createTransaction(new Transaction("user1", "user3", 50));
+blockchain.createTransaction(new Transaction("user3", "user2", 100));
 
 console.log("Starting the miner...");
 blockchain.minePendingTransactions("andrzej");
