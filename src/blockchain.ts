@@ -31,6 +31,7 @@ class Blockchain {
   minePendingTransactions(miningRewardAddress: string) {
     let block = new Block(Date.now(), this.pendingTransactions);
     block.mine(this.difficulty);
+
     console.log("Block successfuly mined!");
     this.chain.push(block);
 
@@ -39,8 +40,8 @@ class Blockchain {
     ];
   }
 
-  createTransaction(transacition: Transaction) {
-    this.pendingTransactions.push(transacition);
+  createTransaction(transaction: Transaction) {
+    this.pendingTransactions.push(transaction);
   }
 
   getBalanceOfAddress(address: string) {
