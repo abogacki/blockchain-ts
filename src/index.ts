@@ -17,11 +17,12 @@ const data = [
   },
 ];
 
-const blockchain = new Blockchain();
+const blockchain = new Blockchain(5);
 
-data.forEach(({ timestamp, data }) =>
-  blockchain.addBlock(new Block(timestamp, data))
-);
+data.forEach(({ timestamp, data }, index) => {
+  console.log(`Mining block ${index}`);
+  blockchain.addBlock(new Block(timestamp, data));
+});
 
 console.log(JSON.stringify({ blockchain }, null, 4));
 
